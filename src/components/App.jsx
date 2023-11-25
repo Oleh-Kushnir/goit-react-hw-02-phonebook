@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import ContactForm from '../components/ContactForm/ContactForm.jsx';
-// import { PhonebookList } from '../components/PhonebookList/PhonebookList.jsx';
+import ContactList from '../components/ContactList/ContactList.jsx';
+import Filter from '../components/Filter/Filter.jsx';
 
 export class App extends Component {
   state = {
@@ -14,15 +15,27 @@ export class App extends Component {
     filter: '',
   };
 
-  changeFilter = e => {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
+  onSubmit = data => {
+    const contact = { ...data };
+    this.state.contacts.find(
+      el => el.name.toLocaleLowerCase() === contact.name.toLocaleLowerCase()
+    )
+      ? alert(`${contact.name} is already in contacts`)
+      : this.setState(prev => ({
+          contacts: [contact, ...prev.contacts],
+        }));
   };
 
-  handleFilterChange = e => {
-    this.setState({ filter: e.target.value });
+  changeFilter = e => {
+    const { value } = e.target;
+    this.setState({ filter: value });
+  };
+
+  onDelete = e => {
+    const { id } = e.target;
+    this.setState(prev => ({
+      contacts: prev.contacts.filter(el => el.id !== id),
+    }));
   };
 
   render() {
@@ -35,26 +48,10 @@ export class App extends Component {
     return (
       <div>
         <h1>Phonebook</h1>
-        <ContactForm />
-        <div>
-          <h1>Contacts</h1>
-          <label htmlFor="number">Filter contacts by name</label>
-          <input
-            type="text"
-            placeholder="Filter contacts by name"
-            value={filter}
-            onChange={this.handleFilterChange}
-          />
-          <ul>
-            {visibleItem.map(el => {
-              return (
-                <li key={el.id}>
-                  {el.name}:{el.number}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <ContactForm onSubmit={this.onSubmit} />
+        <h2>Contacts</h2>
+        <Filter value={this.state.filter} onChange={this.changeFilter} />
+        <ContactList contacts={visibleItem} onClick={this.onDelete} />
       </div>
     );
   }
