@@ -5,7 +5,13 @@ import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
     name: '',
     number: '',
   };
@@ -24,6 +30,13 @@ export class App extends Component {
     });
   };
 
+  changeFilter = e => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.setState(prevState => ({
@@ -33,10 +46,21 @@ export class App extends Component {
     }));
   };
 
+  handleFilterChange = e => {
+    this.setState({ filter: e.target.value });
+  };
+
   render() {
+    const { contacts, filter } = this.state;
+
+    const visibleItem = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+
     return (
       <div>
         <h1>Phonebook</h1>
+
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="name">Name</label>
           <input
@@ -46,6 +70,7 @@ export class App extends Component {
             onChange={this.changeName}
             value={this.state.name}
           />
+
           <label htmlFor="number">Name</label>
           <input
             type="tel"
@@ -54,20 +79,28 @@ export class App extends Component {
             onChange={this.changeNumber}
             value={this.state.number}
           />
+
           <button type="submit">Add Contact</button>
         </form>
 
         <div>
           <h1>Contacts</h1>
-          <div>
-            {this.state.contacts.map(el => {
+          <label htmlFor="number">Filter contacts by name</label>
+          <input
+            type="text"
+            placeholder="Filter contacts by name"
+            value={filter}
+            onChange={this.handleFilterChange}
+          />
+          <ul>
+            {visibleItem.map(el => {
               return (
-                <div key={el.id}>
+                <li key={el.id}>
                   {el.name}:{el.number}
-                </div>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </div>
       </div>
     );
