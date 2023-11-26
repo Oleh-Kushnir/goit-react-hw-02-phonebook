@@ -2,6 +2,14 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 
+import {
+  PhonebookContainer,
+  Form,
+  Label,
+  Input,
+  Button,
+} from './ContactForm.style.jsx';
+
 export default class ContactForm extends Component {
   state = {
     name: '',
@@ -26,10 +34,10 @@ export default class ContactForm extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="name">Name</label>
-          <input
+      <PhonebookContainer>
+        <Form onSubmit={this.handleSubmit}>
+          <Label htmlFor="name">Name</Label>
+          <Input
             type="text"
             name="name"
             required
@@ -39,8 +47,8 @@ export default class ContactForm extends Component {
             value={this.state.name}
           />
 
-          <label htmlFor="number">Number</label>
-          <input
+          <Label htmlFor="number">Number</Label>
+          <Input
             type="tel"
             name="number"
             required
@@ -50,9 +58,9 @@ export default class ContactForm extends Component {
             value={this.state.number}
           />
 
-          <button type="submit">Add Contact</button>
-        </form>
-      </div>
+          <Button type="submit">Add Contact</Button>
+        </Form>
+      </PhonebookContainer>
     );
   }
 }

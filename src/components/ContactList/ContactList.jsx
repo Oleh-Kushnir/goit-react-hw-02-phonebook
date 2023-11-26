@@ -1,21 +1,30 @@
 import PropTypes from 'prop-types';
 
+import {
+  PhonebookListStyled,
+  PhonebookListItem,
+  PhonebookListWrap,
+  DeleteButton,
+} from './ContactList.style';
+
+
+
 const ContactList = ({ contacts, onClick }) => {
   return (
-    <div>
-      <ul>
+    <PhonebookListWrap>
+      <PhonebookListStyled>
         {contacts.map(el => {
           return (
-            <li key={el.id}>
+            <PhonebookListItem key={el.id}>
               {el.name}:{el.number}
-              <button type="button" onClick={onClick} id={el.id}>
+              <DeleteButton type="button" onClick={onClick} id={el.id}>
                 Delete
-              </button>
-            </li>
+              </DeleteButton>
+            </PhonebookListItem>
           );
         })}
-      </ul>
-    </div>
+      </PhonebookListStyled>
+    </PhonebookListWrap>
   );
 };
 

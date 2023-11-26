@@ -4,6 +4,8 @@ import ContactForm from '../components/ContactForm/ContactForm.jsx';
 import ContactList from '../components/ContactList/ContactList.jsx';
 import Filter from '../components/Filter/Filter.jsx';
 
+import { Title } from './ContactForm/ContactForm.style.jsx';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -47,9 +49,9 @@ export class App extends Component {
 
     return (
       <div>
-        <h1>Phonebook</h1>
+        <Title>Phonebook</Title>
         <ContactForm onSubmit={this.onSubmit} />
-        <h2>Contacts</h2>
+        <Title>Contacts</Title>
         <Filter value={this.state.filter} onChange={this.changeFilter} />
         <ContactList contacts={visibleItem} onClick={this.onDelete} />
       </div>
